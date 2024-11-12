@@ -1,0 +1,35 @@
+
+function main(workbook: ExcelScript.Workbook) {
+    // Get the active cell and worksheet.
+    let selectedCell = workbook.getActiveCell();
+    let sheet = workbook.getActiveWorksheet();
+    let rawData = workbook.getFirstWorksheet(); 
+
+    //set visibility of raw data sheet
+    rawData.setVisibility(ExcelScript.SheetVisibility.visible);
+
+    //sets headers to bold
+    let range = sheet.getRange("A1:N1");
+    range.getFormat().getFont().setBold(true);
+    
+    //centers everything 
+    let usedRange = sheet.getUsedRange();
+    usedRange.getFormat().setVerticalAlignment(ExcelScript.VerticalAlignment.center);
+    usedRange.getFormat().setHorizontalAlignment(ExcelScript.HorizontalAlignment.center);
+
+    //colors headers
+    const startCell = sheet.getRange("A1:N1")
+    const headerRow = startCell.getRow(0);
+    headerRow.getFormat().getFill().setColor("blue");
+    headerRow.getFormat().getFont().setColor("white");
+
+    //change every other row to gray 
+    let rowCount = usedRange.getRowCount();
+    let columnCount = usedRange.getColumnCount();
+    for (let i = 1; i < rowCount; i+=2){
+        const rowRange = sheet.getRangeByIndexes(i, 0, 1, columnCount);
+        rowRange.getFormat().getFill().setColor("d3d3d3");
+    }
+
+    
+}

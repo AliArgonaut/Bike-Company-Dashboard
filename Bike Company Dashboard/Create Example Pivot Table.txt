@@ -1,0 +1,34 @@
+
+function main(workbook: ExcelScript.Workbook) {
+    // Get the active cell and worksheet.
+    let selectedCell = workbook.getActiveCell();
+    let sheet = workbook.getActiveWorksheet();
+
+    const dataSheet = workbook.getWorksheet("Working Sheet").getRange("A1:N1000");
+    const pivotTableSheet = workbook.getWorksheet("Pivot Table");
+
+    //Age of Customer Pivot Table
+    const pivot1 = pivotTableSheet.addPivotTable("Age and If Purchased", dataSheet.getUsedRange(), pivotTableSheet.getRange("A1"));
+
+   pivot1.addRowHierarchy(pivot1.getHierarchy("Age Bracket"));
+    pivot1.addColumnHierarchy(pivot1.getHierarchy("Purchased Bike"));
+    pivot1.addDataHierarchy(pivot1.getHierarchy("Purchased Bike"));
+
+    //Average Income by Gender and Whether they Purchased
+   const pivot2 = pivotTableSheet.addPivotTable("Income By Gender and If Purchased", dataSheet.getUsedRange(), pivotTableSheet.getRange("A9"));
+
+   pivot2.addRowHierarchy(pivot2.getHierarchy("Gender"));
+  pivot2.addColumnHierarchy(pivot2.getHierarchy("Purchased Bike"));
+    pivot2.addDataHierarchy(pivot2.getHierarchy("Income"));
+    //remember to go into pivot field settings and make it an average
+
+    //Commute Distance Pivot Table
+    const pivot3 = pivotTableSheet.addPivotTable("Commute Distance and If Purchased", dataSheet.getUsedRange(), pivotTableSheet.getRange("A15"));
+
+    pivot3.addRowHierarchy(pivot3.getHierarchy("Commute Distance"));
+    pivot3.addColumnHierarchy(pivot3.getHierarchy("Purchased Bike"));
+    pivot3.addDataHierarchy(pivot3.getHierarchy("Purchased Bike"));
+    //remember to sort the commute distance values
+
+
+}
